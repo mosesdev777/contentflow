@@ -1,3 +1,8 @@
 from django.contrib import admin
+from .models import Profile, Publication, SocialMedia, VoiceAuthor
 
-# Register your models here.
+
+admin.site.register(Profile)
+admin.site.register(SocialMedia)
+admin.site.register(VoiceAuthor)
+admin.site.register(Publication)

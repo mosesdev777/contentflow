@@ -9,11 +9,16 @@ class Profile(models.Model):
     def get_absolute_url(self):
         return f'/users/{self.user.username}'
     
+    ROL_CHOICES = (
+        ('admin', 'admin'),
+        ('user', 'user'),
+    )
+    
     user = models. OneToOneField(User, on_delete=models.CASCADE)
     avatar = models.ImageField(upload_to=get_absolute_url, blank=True, null=True)
-    rol = models.CharField(max_length=200,null=False, blank=False)
+    rol = models.CharField(max_length=200,null=False, blank=False, choices=ROL_CHOICES, default='user')
     
-    def create_profile(self, created, sender, instance, **kwargs):
+    def create_profile(created, sender, instance, **kwargs):
         if created:
             profile = Profile.objects.create(user=instance)
             profile.save()
@@ -51,11 +56,11 @@ class Publication(models.Model):
     slug = models.SlugField(unique=True, null=True, blank=True)
     description = models.TextField(blank=False, null=False)
     script = models.TextField(blank=False, null=False)
-    thumbnail_title = models.TextField(blank=True, null=True)
+    thumbnail_title = models.CharField(max_length=200,blank=True, null=True)
     voice_type = models.CharField(max_length=100, choices=VOICE_CHOICES, default='Human', null=False, blank=False)
     voice_author = models.ForeignKey('VoiceAuthor', null=True, blank=True, on_delete=models.CASCADE)
     voice_name = models.CharField(max_length=100, null=False, blank=True)
-    status = models.CharField(max_length=100, null=False, blank=False, choices=STATUS_CHOICES)
+    status = models.CharField(max_length=100, null=False, blank=False, choices=STATUS_CHOICES, default='Created')
     content_format =  models.CharField(max_length=100, null=False, blank=True, choices=FORMAT_CHOICES, default='Post')
     background_music = models.CharField(max_length=200, blank=True, null=True)
     social_media = models.ManyToManyField('SocialMedia')
