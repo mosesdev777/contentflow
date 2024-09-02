@@ -247,6 +247,7 @@ class Phrase(models.Model):
     text = models.TextField(blank=False, null=False)
     created_at =  models.DateTimeField(auto_now_add=True)
     is_used = models.BooleanField(default=False)
+    date_used = models.DateField(blank=True, null=True)
     
     def __str__(self):
         return self.channel.name
