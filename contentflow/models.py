@@ -53,21 +53,21 @@ class Profile(models.Model):
 class Publication(models.Model):
     
     VOICE_CHOICES = (
-        ('Human', 'Human'),
-        ('AI', 'AI'),
+        ('h', 'Human'),
+        ('ai', 'AI'),
     )
     
     STATUS_CHOICES = (
-        ('Created', 'Created'),
-        ('Published', 'Published'),
-        ('Deleted', 'Deleted'),
+        ('c', 'Created'),
+        ('p', 'Published'),
+        ('d', 'Deleted'),
     )
     FORMAT_CHOICES = (
-        ('Long Video', 'Long Video'),
-        ('Post', 'Post'),
-        ('Short', 'Short'),
-        ('Reel', 'Short'),
-        ('Story', 'Story'),
+        ('l', 'Long Video'),
+        ('p', 'Post'),
+        ('s', 'Short'),
+        ('r', 'Short'),
+        ('st', 'Story'),
     )
     
     
@@ -125,10 +125,10 @@ class VoiceAuthor(models.Model):
 class Subcription(models.Model):
     
     RENEWAL_CHOICES = (
-        ('Yearly', 'Yearly'),
-        ('Monthly', 'Monthly'),
-        ('Each 3 Months', 'Each 3 Months'),
-        ('Pay as you go', 'Pay as you go')
+        ('y', 'Yearly'),
+        ('m', 'Monthly'),
+        ('e3m', 'Each 3 Months'),
+        ('pag', 'Pay as you go')
     )
     
     platform = models.CharField(max_length=200, blank=False, null=False)
@@ -217,3 +217,22 @@ class Title(models.Model):
     
     def __str__(self):
         return self.channel.name   
+    
+class Character(models.Model):
+    """
+    This model is for having every character or person that inspire you 
+    """
+    
+    TYPE_CHOICES = (
+        ('s', 'Stoic'),
+        ('ps', 'Psycologist'),
+        ('w', 'Writer'),
+        ('m', 'Mentor')
+    )
+    channel = models.ManyToManyField(MediaPlatform, null=False, blank=False)
+    name = models.CharField(max_length=200, null=False, blank=False)
+    character_type = models.CharField(max_length=200, null=False, blank=False, choices=TYPE_CHOICES)
+    
+    def __str__(self):
+        return f"{self.name} - {self.channel.name}"
+    
