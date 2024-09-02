@@ -135,6 +135,10 @@ class Subcription(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
     
+    def __str__(self):
+        return self.platform
+    
+    
 
 class Planning(models.Model):
     
@@ -146,13 +150,17 @@ class Planning(models.Model):
         ('Every 2 weeks', 'Every 2 weeks')
     )
     
-    youtube = models.ForeignKey(Account, related_name='youtube', null=True, blank=True, choices=FRECUENCY_CHOICES, default='Dayly')
-    meta = models.ForeignKey(Account, related_name='meta', null=True, blank=True)
-    instagram = models.ForeignKey(Account, related_name='instagram', null=True, blank=True, choices=FRECUENCY_CHOICES, default='Dayly')
-    tiktok = models.ForeignKey(Account, related_name='tiktok', null=True, blank=True, choices=FRECUENCY_CHOICES, default='Dayly')
-    web = models.ForeignKey(Account, related_name='web', null=True, blank=True, choices=FRECUENCY_CHOICES, default='Dayly')
+    youtube = models.ForeignKey('Account', related_name='youtube', null=True, blank=True, choices=FRECUENCY_CHOICES, default='Dayly')
+    meta = models.ForeignKey('Account', related_name='meta', null=True, blank=True)
+    instagram = models.ForeignKey('Account', related_name='instagram', null=True, blank=True, choices=FRECUENCY_CHOICES, default='Dayly')
+    tiktok = models.ForeignKey('Account', related_name='tiktok', null=True, blank=True, choices=FRECUENCY_CHOICES, default='Dayly')
+    web = models.ForeignKey('Account', related_name='web', null=True, blank=True, choices=FRECUENCY_CHOICES, default='Dayly')
     created_at = models.DateTimeField(auto_now_add=True)
     status = models.BooleanField(null=False, blank=False, default=True)
+    
+    def __str__(self):
+        return self.created_at
+    
     
 class Account(models.Model):
     name = models.CharField(max_length=200, blank=False, null=False)
@@ -161,6 +169,9 @@ class Account(models.Model):
     username = models.CharField(max_length=200, blank=False, null=False) 
     phone = models.CharField(max_length=20,blank=True, null=True)
     two_factor_authenticator = models.CharField(max_length=200, blank=True, null=True)    
+    
+    def __str__(self):
+        return self.name
     
 class Prompt(models.Model):
     
