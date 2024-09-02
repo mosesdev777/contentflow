@@ -6,6 +6,12 @@ from django.db.models.signals import post_save
 
 
 class MediaPlatform(models.Model):
+    """
+    This model is used to register  avery channel or profile in wich you going to create content
+
+    Args:
+        models (_type_): _description_
+    """
     name = models.CharField(max_length=200, blank=False, null=False)
     social_media = models.ForeignKey('SocialMedia', null=False, blank=False)
     is_active = models.BooleanField(default=True, null=False, blank=False)
@@ -143,11 +149,11 @@ class Subcription(models.Model):
 class Planning(models.Model):
     
     FRECUENCY_CHOICES = (
-        ('Dayly', 'Dayly'),
-        ('On Sunday', 'On Sunday'),
-        ('On Saturday', 'On Saturday'),
-        ('Three times a week', 'Three times a week')
-        ('Every 2 weeks', 'Every 2 weeks')
+        ('d', 'Dayly'),
+        ('su', 'On Sunday'),
+        ('sa', 'On Saturday'),
+        ('3tw', 'Three times a week')
+        ('e2w', 'Every 2 weeks')
     )
     
     youtube = models.ForeignKey('Account', related_name='youtube', null=True, blank=True, choices=FRECUENCY_CHOICES, default='Dayly')
@@ -176,11 +182,11 @@ class Account(models.Model):
 class Prompt(models.Model):
     
     FORMAT_CHOICES = (
-        ('Long Video', 'Long Video'),
-        ('Post', 'Post'),
-        ('Short', 'Short'),
-        ('Reel', 'Short'),
-        ('Story', 'Story'),
+        ('l', 'Long Video'),
+        ('p', 'Post'),
+        ('s', 'Short'),
+        ('r', 'Short'),
+        ('st', 'Story'),
     )
     
     channel = models.CharField(max_length=200, blank=False, null=False)
@@ -189,4 +195,25 @@ class Prompt(models.Model):
     
     def __str__(self):
         return self.channel        
+
+class Title(models.Model):
     
+    """
+    This model is for having every title you are going to use to create content
+    """
+    FORMAT_CHOICES = (
+        ('lv', 'Long Video'),
+        ('p', 'Post'),
+        ('s', 'Short'),
+        ('r', 'Short'),
+        ('st', 'Story'),
+    )
+    
+    channel = models.ForeignKey(MediaPlatform, null=False, blank=False)
+    publish_date = models.DateField(auto_now=True, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    content_format = models.CharField(max_length=200, choices=FORMAT_CHOICES, default='Long Video')
+    status = models.BooleanField(default=True, null=False, blank=False)     
+    
+    def __str__(self):
+        return self.channel.name   
