@@ -237,4 +237,13 @@ class Character(models.Model):
     def __str__(self):
         return f"{self.name} - {self.channel.name}"
 
-
+class Phrase(models.Model):
+    
+    """
+    This model is for having every phrase that you are going to use to create content 
+    """
+    
+    channel = models.ForeignKey(MediaPlatform, on_delete=models.CASCADE, null=False, blank=False)
+    text = models.TextField(blank=False, null=False)
+    created_at =  models.DateTimeField(auto_now_add=True)
+    is_used = models.BooleanField(default=False)
