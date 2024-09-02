@@ -12,13 +12,7 @@ class MediaPlatform(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     
     
-class Account(models.Model):
-    name = models.CharField(max_length=200, blank=False, null=False)
-    email = models.EmailField(null=False, blank=False)
-    purpose = models.CharField(max_length=300, blank=False, null=False)
-    username = models.CharField(max_length=200, blank=False, null=False) 
-    phone = models.CharField(max_length=20,blank=True, null=True)
-    two_factor_authenticator = models.CharField(max_length=200, blank=True, null=True)       
+   
 class Profile(models.Model):
     
     def get_absolute_url(self):
@@ -160,6 +154,28 @@ class Planning(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     status = models.BooleanField(null=False, blank=False, default=True)
     
+class Account(models.Model):
+    name = models.CharField(max_length=200, blank=False, null=False)
+    email = models.EmailField(null=False, blank=False)
+    purpose = models.CharField(max_length=300, blank=False, null=False)
+    username = models.CharField(max_length=200, blank=False, null=False) 
+    phone = models.CharField(max_length=20,blank=True, null=True)
+    two_factor_authenticator = models.CharField(max_length=200, blank=True, null=True)    
     
-     
-
+class Prompt(models.Model):
+    
+    FORMAT_CHOICES = (
+        ('Long Video', 'Long Video'),
+        ('Post', 'Post'),
+        ('Short', 'Short'),
+        ('Reel', 'Short'),
+        ('Story', 'Story'),
+    )
+    
+    channel = models.CharField(max_length=200, blank=False, null=False)
+    content_format = models.TextField(null=False, blank=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.channel        
+    
