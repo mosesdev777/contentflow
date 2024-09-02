@@ -251,3 +251,26 @@ class Phrase(models.Model):
     
     def __str__(self):
         return self.channel.name
+    
+class Book(models.Model):
+    
+    """
+    This model is for having every book that you are going to use to create content or for personal use 
+    """
+
+    PURPOSE_CHOICES = (
+        ('s', 'Spirituality'),
+        ('st', 'Stoicicim'),
+        ('pg', 'Personal Growth'),
+        ('f', 'Financial'),
+        ('e', 'Education'),
+        ('h', 'Health')
+    )
+    
+    title = models.CharField(max_length=200, null=False, blank=False)
+    author = models.CharField(max_length=200, null=False, blank=False)
+    purpose = models.CharField(max_length=200, blank=False, null=False, choices=PURPOSE_CHOICES)  
+    created_at = models.DateTimeField(auto_now_add=True)  
+    
+    def __str__(self):
+        return f"{self.title} - {self.author}"
