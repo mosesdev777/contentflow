@@ -8,12 +8,9 @@ from django.db.models.signals import post_save
 class MediaPlatform(models.Model):
     """
     This model is used to register  avery channel or profile in wich you going to create content
-
-    Args:
-        models (_type_): _description_
     """
     name = models.CharField(max_length=200, blank=False, null=False)
-    social_media = models.ForeignKey('SocialMedia', null=False, blank=False)
+    social_media = models.ForeignKey('SocialMedia', null=False, blank=False, on_delete=models.CASCADE)
     is_active = models.BooleanField(default=True, null=False, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
     
@@ -88,8 +85,8 @@ class Publication(models.Model):
 
     #Timestamps
     created_at = models.DateTimeField(auto_now_add=True)    
-    updated_at = models.DateTimeField(auto_now=True)
-    published_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateField(auto_now=True)
+    published_at = models.DateField(auto_now=True)
     
     
     def save(self, *args, **kwargs):
@@ -116,7 +113,7 @@ class SocialMedia(models.Model):
 class VoiceAuthor(models.Model):
     name = models.CharField(max_length=100,null=False, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)    
-    updated_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateField(auto_now=True)
     
     def __str__(self):
         return self.name
@@ -152,15 +149,15 @@ class Planning(models.Model):
         ('d', 'Dayly'),
         ('su', 'On Sunday'),
         ('sa', 'On Saturday'),
-        ('3tw', 'Three times a week')
+        ('3tw', 'Three times a week'),
         ('e2w', 'Every 2 weeks')
     )
     
-    youtube = models.ForeignKey('Account', related_name='youtube', null=True, blank=True, choices=FRECUENCY_CHOICES, default='Dayly')
-    meta = models.ForeignKey('Account', related_name='meta', null=True, blank=True)
-    instagram = models.ForeignKey('Account', related_name='instagram', null=True, blank=True, choices=FRECUENCY_CHOICES, default='Dayly')
-    tiktok = models.ForeignKey('Account', related_name='tiktok', null=True, blank=True, choices=FRECUENCY_CHOICES, default='Dayly')
-    web = models.ForeignKey('Account', related_name='web', null=True, blank=True, choices=FRECUENCY_CHOICES, default='Dayly')
+    youtube = models.ForeignKey('Account', related_name='youtube', null=True, blank=True, choices=FRECUENCY_CHOICES, default='Dayly', on_delete=models.CASCADE)
+    meta = models.ForeignKey('Account', related_name='meta', null=True, blank=True, on_delete=models.CASCADE)
+    instagram = models.ForeignKey('Account', related_name='instagram', null=True, blank=True, choices=FRECUENCY_CHOICES, default='Dayly', on_delete=models.CASCADE)
+    tiktok = models.ForeignKey('Account', related_name='tiktok', null=True, blank=True, choices=FRECUENCY_CHOICES, default='Dayly', on_delete=models.CASCADE)
+    web = models.ForeignKey('Account', related_name='web', null=True, blank=True, choices=FRECUENCY_CHOICES, default='Dayly', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     status = models.BooleanField(null=False, blank=False, default=True)
     
@@ -209,7 +206,7 @@ class Title(models.Model):
         ('st', 'Story'),
     )
     
-    channel = models.ForeignKey(MediaPlatform, null=False, blank=False)
+    channel = models.ForeignKey(MediaPlatform, null=False, blank=False, on_delete=models.CASCADE)
     publish_date = models.DateField(auto_now=True, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     content_format = models.CharField(max_length=200, choices=FORMAT_CHOICES, default='Long Video')
