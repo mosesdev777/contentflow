@@ -187,7 +187,8 @@ class Prompt(models.Model):
     )
     
     channel = models.ForeignKey(MediaPlatform, on_delete=models.CASCADE, null=False, blank=False)
-    content_format = models.TextField(null=False, blank=False, choices=FORMAT_CHOICES)
+    content_format = models.CharField(max_length=200, null=False, blank=False, choices=FORMAT_CHOICES)
+    text = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
