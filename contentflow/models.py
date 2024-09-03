@@ -154,7 +154,7 @@ class Planning(models.Model):
     )
     
     youtube = models.ForeignKey('Account', related_name='youtube', null=True, blank=True, choices=FRECUENCY_CHOICES, default='Dayly', on_delete=models.CASCADE)
-    meta = models.ForeignKey('Account', related_name='meta', null=True, blank=True, on_delete=models.CASCADE)
+    meta = models.ForeignKey('Account', related_name='meta', null=True, blank=True, on_delete=models.CASCADE, choices=FRECUENCY_CHOICES)
     instagram = models.ForeignKey('Account', related_name='instagram', null=True, blank=True, choices=FRECUENCY_CHOICES, default='Dayly', on_delete=models.CASCADE)
     tiktok = models.ForeignKey('Account', related_name='tiktok', null=True, blank=True, choices=FRECUENCY_CHOICES, default='Dayly', on_delete=models.CASCADE)
     web = models.ForeignKey('Account', related_name='web', null=True, blank=True, choices=FRECUENCY_CHOICES, default='Dayly', on_delete=models.CASCADE)
@@ -182,12 +182,12 @@ class Prompt(models.Model):
         ('l', 'Long Video'),
         ('p', 'Post'),
         ('s', 'Short'),
-        ('r', 'Short'),
+        ('r', 'Reel'),
         ('st', 'Story'),
     )
     
-    channel = models.CharField(max_length=200, blank=False, null=False)
-    content_format = models.TextField(null=False, blank=False)
+    channel = models.ForeignKey(MediaPlatform, on_delete=models.CASCADE, null=False, blank=False)
+    content_format = models.TextField(null=False, blank=False, choices=FORMAT_CHOICES)
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
@@ -202,7 +202,7 @@ class Title(models.Model):
         ('lv', 'Long Video'),
         ('p', 'Post'),
         ('s', 'Short'),
-        ('r', 'Short'),
+        ('r', 'Reel'),
         ('st', 'Story'),
     )
     
