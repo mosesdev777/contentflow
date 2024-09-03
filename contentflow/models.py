@@ -226,7 +226,7 @@ class Character(models.Model):
         ('w', 'Writer'),
         ('m', 'Mentor')
     )
-    channel = models.ManyToManyField(MediaPlatform, null=False, blank=False)
+    channel = models.ManyToManyField(MediaPlatform, blank=False)
     name = models.CharField(max_length=200, null=False, blank=False)
     character_type = models.CharField(max_length=200, null=False, blank=False, choices=TYPE_CHOICES)
     created_at = models.DateTimeField(auto_now_add=True)
