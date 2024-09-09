@@ -26,11 +26,10 @@ class Profile(models.Model):
         ('user', 'user'),
     )
     
-    user = models. OneToOneField(User, on_delete=models.CASCADE)
+    user = models. OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     avatar = models.ImageField(upload_to='users/avatar/', blank=True, null=True)
     rol = models.CharField(max_length=200,null=False, blank=False, choices=ROL_CHOICES, default='user')
     
-    print(user.get_cache_name)
     
     def create_profile(created, sender, instance, **kwargs):
         if created:
@@ -41,10 +40,11 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username    
     
-    def save(self, *args, **kwargs):
-        self.avatar= f'users/avatar/{self.user.username}/{self.avatar.file}'
+    """def save(self, *args, **kwargs):
+        # Todo: rename the avatar image when uploaded
+        #self.avatar= f'users/avatar/{self.user.username}/{self.avatar.file}'
         super().save(*args, **kwargs)
-    
+    """
         
 
 class Publication(models.Model):
@@ -63,7 +63,7 @@ class Publication(models.Model):
         ('l', 'Long Video'),
         ('p', 'Post'),
         ('s', 'Short'),
-        ('r', 'Short'),
+        ('r', 'Reel'),
         ('st', 'Story'),
     )
     
