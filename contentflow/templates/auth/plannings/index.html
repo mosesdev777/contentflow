@@ -1,0 +1,70 @@
+{% extends 'auth/base.html' %}
+
+{% load static %}
+
+{% block title %} Plannings {% endblock %}
+
+{% block content %}
+    <div class="row gap-4">
+      {% with plannings=True %}
+      <div class="col-md-2">
+          {% include 'auth/partials/aside.html' %}
+      </div>
+    {% endwith %}
+        <div class="col-md-9 mt-4 shadow rounded">
+            <h1 class="text-center text-muted">Plannings</h1>
+            {% if messages %}
+              <div class="alert alert-success text-success fw-bold">
+                {% for message in messages %}
+                  {{ message}}
+                {% endfor%}
+              </div>
+            {% endif %}
+
+            <a href="{% url 'create-planning' %}" class="btn btn-sm btn-success">
+              <img class="me-1" src="{% static 'icons/new.png' %}" width="20px" alt="">Create plan
+            </a>
+            
+            <div class="rounded-lg shadow p-4 my-4">
+                <table class="table table-hover table-responsive">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Social media</th>
+                        <th scope="col">Channel</th>
+                        <th scope="col">Frecuency</th>
+                        <th scope="col">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% if plannings %}
+                        {% for planning in plannings %}
+                            <tr>
+                                <td>{{planning.id}}</td>
+                                <td>{{planning.social_network}}</td>
+                                <td>{{planning.channel}}</td>
+                                <td>{{planning.get_frecuency_display }}</td>
+                                <td>{{prompt.text | truncatechars:50 }}</td>
+                                <td>
+                                    <a href="{% url 'update-planning' planning.pk %}" class="btn btn-warning btn-sm">
+                                      <img class="me-1" src="{% static 'icons/edit.png' %}" width="20px" alt="">Edit
+                                    </a>
+                                    <a href="{% url 'delete-planning' planning.pk %}" class="btn btn-danger btn-sm">
+                                      <img class="me-1" src="{% static 'icons/delete.png' %}" width="20px" alt="">Delete plan
+                                    </a>
+                                </td>
+
+                            </tr>
+                        {% endfor %}
+                      {% endif %}
+                    </tbody>
+                  </table> 
+
+                  <div class="text-center justify-content-center align-content-center">
+                    {% include 'auth/partials/pagination.html' %}
+                  </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

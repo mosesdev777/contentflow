@@ -1,0 +1,61 @@
+{% extends 'auth/base.html' %}
+
+{% load static %}
+
+{% block title %} Titles {% endblock %}
+
+{% block content %}
+    <div class="row gap-4">
+      {% with titles=True %}
+      <div class="col-md-2">
+          {% include 'auth/partials/aside.html' %}
+      </div>
+    {% endwith%}
+        <div class="col-md-9 mt-4 shadow rounded">
+            <h1 class="text-center text-muted fw-bold display-5">Title details</h1>
+            <a href="{% url 'titles' %}" class="btn btn-secondary mx-md-4 btn-sm">
+              <img class="me-1" src="{% static 'icons/return.png' %}" width="20px" alt="">Return
+            </a>
+            <div class="rounded-lg shadow p-4 my-4">
+              <div class="card">
+                <div class="card-body">
+                  <h3 class="card-title text-muted text-center">{{ title.name }}</h3>
+                  <div>
+                    <h5>Name</h5>
+                    <p>{{ title.name }}</p>
+                  </div>
+                  <hr>
+                  <div>
+                    <h5>Channel</h5>
+                    <p>{{ title.channel }}</p>
+                  </div>
+                  <hr>
+                  <div>
+                    <h5>Published Date</h5>
+                    <p>{{ title.publish_date }}</p>
+                  </div>
+                  <hr>
+                  <div>
+                    <h5>Created at</h5>
+                    <p>{{ title.created_at}}</p>
+                  </div>
+                  <hr>
+                  <div>
+                    <h5>Content format</h5>
+                    <p>{{ title.get_content_format_display }}</p>
+                  </div>
+                  <hr>
+                <div class="card-footer d-md-flex gap-2">
+                  <a href="{% url 'update-title' title.pk %}" class="btn btn-sm btn-warning">
+                    <img class="me-1" src="{% static 'icons/edit.png' %}" width="20px" alt="">Edit title
+                  </a>
+                  <a href="{% url 'delete-title' title.pk %}" class="btn btn-sm btn-danger">
+                    <img class="me-1" src="{% static 'icons/delete.png' %}" width="20px" alt="">Delete title
+                  </a>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

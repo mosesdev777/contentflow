@@ -1,0 +1,46 @@
+{% load static %}
+
+<aside class="p-2 my-4 shadow h-100 rounded overflow-auto">
+    <a href="{% url 'dashboard' %}" class="w-100 d-flex align-content-center  btn btn-sm my-3 border {% if dashboard %}btn-primary{%endif%}">
+        <img  class="me-4" src="{% static 'icons/home.png' %}" width="20px" alt="">Home
+    </a>
+    <a href="{% url 'publications' %}" class="d-flex align-content-center  btn btn-sm my-3 border {% if publications %}btn-primary{%endif%}" >
+        <img  class="me-4" src="{% static 'icons/publish.png' %}" width="20px" alt="">Publications
+    </a>
+    <a href="{% url 'channels' %}" class="d-flex align-content-center  btn btn-sm my-3 border {% if channels %}btn-primary{%endif%}">
+        <img  class="me-4" src="{% static 'icons/channels.png' %}" width="20px" alt="">Channels
+    </a>
+    <a href="{% url 'books' %}" class="d-flex align-content-center  btn btn-sm my-3 border {% if books %}btn-primary{%endif%}">
+        <img  class="me-4" src="{% static 'icons/books.png' %}" width="20px" alt="">Books
+    </a>
+    <a href="{% url 'accounts' %}" class="d-flex align-content-center  btn btn-sm my-3 border {% if accounts %}btn-primary{%endif%}">
+        <img  class="me-4" src="{% static 'icons/accounts.png' %}" width="20px" alt="">Accounts
+    </a>
+    <a href="{% url 'subscriptions' %}" class="d-flex align-content-center  btn btn-sm my-3 border {% if subscriptions %}btn-primary{%endif%}">
+        <img  class="me-4" src="{% static 'icons/subscriptions.png' %}" width="20px" alt="">Subscriptions
+    </a>
+    <a href="{% url 'phrases' %}" class="d-flex align-content-center  btn btn-sm my-3 border {% if phrases %}btn-primary{%endif%}">
+        <img  class="me-4" src="{% static 'icons/phrases.png' %}" width="20px" alt="">Phrases
+    </a>
+    <a href="{% url 'titles' %}" class="d-flex align-content-center  btn btn-sm my-3 border {% if titles %}btn-primary{%endif%}">
+        <img  class="me-4" src="{% static 'icons/titles.png' %}" width="20px" alt="">Titles
+    </a>
+    <a href="{% url 'hooks' %}" class="d-flex align-content-center  btn btn-sm my-3 border {% if hooks %}btn-primary{%endif%}">
+        <img  class="me-4" src="{% static 'icons/hooks.png' %}" width="20px" alt="">Hooks
+    </a>
+    <a href="{% url 'characters' %}" class="d-flex align-content-center  btn btn-sm my-3 border {% if characters %}btn-primary{%endif%}">
+        <img  class="me-4" src="{% static 'icons/characters.png' %}" width="20px" alt="">Characters
+    </a>
+    <a href="{% url 'prompts' %}" class="d-flex align-content-center btn btn-sm my-3 border {% if prompts %}btn-primary{%endif%}">
+        <img  class="me-4" src="{% static 'icons/prompts.png' %}" width="20px" alt="">Prompts
+    </a>
+    <a href="{% url 'plannings' %}" class="d-flex align-content-center btn btn-sm my-3 border {% if plannings %}btn-primary{%endif%}">
+        <img  class="me-4" src="{% static 'icons/plannings.png' %}" width="20px" alt="">Plannings
+    </a>
+    <a href="{% url 'voice-authors' %}" class="d-flex align-content-center btn btn-sm my-3 border {% if voices %}btn-primary{%endif%}">
+        <img  class="me-4" src="{% static 'icons/voices.png' %}" width="20px" alt="">Voices
+    </a>
+    <a href="{% url 'social-medias' %}" class="d-flex align-content-center btn btn-sm my-3 border {% if social_medias %}btn-primary{%endif%}">
+        <img  class="me-4" src="{% static 'icons/social-medias.png' %}" width="20px" alt="">Social Medias
+    </a>
+</aside>

@@ -1,0 +1,36 @@
+{% extends 'auth/base.html' %}
+
+{% load static %}
+
+{% block title %} Delete channel {% endblock %}
+
+{% block content %}
+    <div class="row gap-4">
+        {% with channels=True %}
+            <div class="col-md-2">
+                {% include 'auth/partials/aside.html' %}
+            </div>
+        {% endwith%}
+        <div class="col-md-9 mt-4 shadow rounded">
+            <h1 class="text-center text-muted fw-bold display-5"><span class="text-danger">Deleting:</span> {{ channel.name }}</h1>
+            <a href="{% url 'channels' %}" class="btn btn-sm btn-secondary">
+                <img class="me-1" src="{% static 'icons/return.png' %}" width="20px" alt="">Return
+            </a>
+            <div class="rounded-lg shadow p-4 my-4">
+                <h3>Are you sure want to delete this channel?</h3>
+               <form method="post">
+                    {% csrf_token %}
+                    <a href="{% url 'channels' %}" class="btn btn-sm btn-secondary me-2">
+                        <img class="me-1" src="{% static 'icons/cancel.png' %}" width="20px" alt="">Cancel
+                    </a>
+                    <button class="btn btn-sm btn-danger my-3" type="submit">
+                        <img class="me-1" src="{% static 'icons/delete.png' %}" width="20px" alt="">Yes, delete it!!
+                    </button>
+                    
+               </form> 
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

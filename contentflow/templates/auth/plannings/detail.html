@@ -1,0 +1,42 @@
+{% extends 'auth/base.html' %}
+
+{% block title %} Publications {% endblock %}
+
+{% block content %}
+    <div class="row gap-4">
+      {% with plannings=True %}
+      <div class="col-md-2">
+          {% include 'auth/partials/aside.html' %}
+      </div>
+    {% endwith %}
+        <div class="col-md-9 mt-4 shadow rounded">
+            <h1 class="text-center text-muted">Prompt details</h1>
+            <a href="{% url 'prompts' %}" class="btn btn-outline-primary mx-md-4 btn-sm">Return</a>
+            <div class="rounded-lg shadow p-4 my-4">
+              <div class="card">
+                <div class="card-body">
+                  <div>
+                    <h5>Channel</h5>
+                    <p>{{ prompt.channel }}</p>
+                  </div>
+                  <hr>
+                  <div>
+                    <h5>Content format</h5>
+                    <p>{{ prompt.get_content_format_display }}</p>
+                  </div>
+                  <hr>
+                  <div>
+                    <h5>Prompt</h5>
+                    <p>{{ prompt.text }}</p>
+                  </div>                  
+                </div>
+                <div class="card-footer d-md-flex gap-3">
+                  <a href="{% url 'update-prompt' prompt.pk %}" class="btn btn-warning">Edit prompt</a>
+                  
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

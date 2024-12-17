@@ -2,17 +2,24 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import slugify
 from django.db.models.signals import post_save
+from uuid import uuid4
 # Create your models here.
 
 
-class MediaPlatform(models.Model):
+class Channel(models.Model):
     """
     This model is used to register  avery channel or profile in wich you going to create content
     """
     name = models.CharField(max_length=200, blank=False, null=False)
-    social_media = models.ForeignKey('SocialMedia', null=False, blank=False, on_delete=models.CASCADE)
+    social_media = models.ManyToManyField('SocialMedia')
+
     is_active = models.BooleanField(default=True, null=False, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
+    
+    #todo: cambiar de llave primaria a una relacionde muchos a muchos a social media
+    
+    def __str__(self):
+        return self.name
     
     
    
@@ -21,14 +28,8 @@ class Profile(models.Model):
     def get_absolute_url(self):
         return f'users/{self.user.username}'
     
-    ROL_CHOICES = (
-        ('admin', 'admin'),
-        ('user', 'user'),
-    )
-    
     user = models. OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
-    avatar = models.ImageField(upload_to='users/avatar/', blank=True, null=True)
-    rol = models.CharField(max_length=200,null=False, blank=False, choices=ROL_CHOICES, default='user')
+    avatar = models.ImageField(upload_to='users/avatars/', blank=True, null=True)
     
     
     def create_profile(created, sender, instance, **kwargs):
@@ -40,15 +41,8 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username    
     
-    """def save(self, *args, **kwargs):
-        # Todo: rename the avatar image when uploaded
-        #self.avatar= f'users/avatar/{self.user.username}/{self.avatar.file}'
-        super().save(*args, **kwargs)
-    """
-        
-
 class Publication(models.Model):
-    
+
     VOICE_CHOICES = (
         ('h', 'Human'),
         ('ai', 'AI'),
@@ -71,6 +65,7 @@ class Publication(models.Model):
     
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=200, blank=False, null=False)
+    uuid = models.UUIDField(max_length=100, null=True, blank=True)
     slug = models.SlugField(unique=True, null=True, blank=True)
     description = models.TextField(blank=False, null=False)
     script = models.TextField(blank=False, null=False)
@@ -81,6 +76,7 @@ class Publication(models.Model):
     status = models.CharField(max_length=100, null=False, blank=False, choices=STATUS_CHOICES, default='Created')
     content_format =  models.CharField(max_length=100, null=False, blank=True, choices=FORMAT_CHOICES, default='Post')
     background_music = models.CharField(max_length=200, blank=True, null=True)
+    channel = models.ForeignKey(Channel, on_delete=models.CASCADE)
     social_media = models.ManyToManyField('SocialMedia')
 
     #Timestamps
@@ -92,6 +88,8 @@ class Publication(models.Model):
     def save(self, *args, **kwargs):
         
         self.slug = slugify(self.title)
+        if not self.uuid:
+            self.uuid = uuid4()
         super().save(*args, **kwargs)
         
     def __str__(self):
@@ -100,8 +98,7 @@ class Publication(models.Model):
 
 class SocialMedia(models.Model):
     name = models.CharField(max_length=200, null=False, blank=False)
-    icon = models.ImageField(upload_to='social-media/image')
-    url = models.URLField(max_length=200)
+    icon = models.ImageField(upload_to='social-media/icons/')
     
     created_at =  models.DateTimeField(auto_now_add=True)
     upadated_at =  models.DateTimeField(auto_now=True)
@@ -127,7 +124,7 @@ class Subcription(models.Model):
         ('e3m', 'Each 3 Months'),
         ('pag', 'Pay as you go')
     )
-    
+    uuid = models.UUIDField(max_length=100, null=True, blank=True)
     platform = models.CharField(max_length=200, blank=False, null=False)
     plan = models.CharField(max_length=200, null=False, blank=False)
     amount = models.FloatField(null=False, blank=False, default=0)
@@ -141,6 +138,11 @@ class Subcription(models.Model):
     def __str__(self):
         return self.platform
     
+    def save(self, *args, **kwargs):
+        if not self.uuid:
+            self.uuid = uuid4()
+        super().save(*args, **kwargs)
+    
     
 
 class Planning(models.Model):
@@ -152,29 +154,33 @@ class Planning(models.Model):
         ('3tw', 'Three times a week'),
         ('e2w', 'Every 2 weeks')
     )
-    
-    youtube = models.ForeignKey('Account', related_name='youtube', null=True, blank=True, choices=FRECUENCY_CHOICES, default='Dayly', on_delete=models.CASCADE)
-    meta = models.ForeignKey('Account', related_name='meta', null=True, blank=True, on_delete=models.CASCADE, choices=FRECUENCY_CHOICES)
-    instagram = models.ForeignKey('Account', related_name='instagram', null=True, blank=True, choices=FRECUENCY_CHOICES, default='Dayly', on_delete=models.CASCADE)
-    tiktok = models.ForeignKey('Account', related_name='tiktok', null=True, blank=True, choices=FRECUENCY_CHOICES, default='Dayly', on_delete=models.CASCADE)
-    web = models.ForeignKey('Account', related_name='web', null=True, blank=True, choices=FRECUENCY_CHOICES, default='Dayly', on_delete=models.CASCADE)
+    social_network = models.ForeignKey(SocialMedia, on_delete=models.CASCADE, null=True)
+    channel = models.ForeignKey(Channel, on_delete=models.CASCADE, null=True)
+    frecuency = models.CharField(max_length=200, blank=False, null=False, choices=FRECUENCY_CHOICES, default='Dayly')
     created_at = models.DateTimeField(auto_now_add=True)
-    status = models.BooleanField(null=False, blank=False, default=True)
-    
+    updated_at = models.DateField(auto_now=True)
     def __str__(self):
-        return self.created_at
+        return self.channel.name
     
     
 class Account(models.Model):
-    name = models.CharField(max_length=200, blank=False, null=False)
+    
+    TWO_F_A_CHOICES = (
+        ('google_authenticator', 'Google Authenticator'),
+        ('microsoft_athenticator', 'Microsoft Athenticator'),
+        ('email', 'Email'),
+        ('phone', 'Phone'),
+    )
+    
+    platform = models.CharField(max_length=200, blank=False, null=False)
     email = models.EmailField(null=False, blank=False)
     purpose = models.CharField(max_length=300, blank=False, null=False)
     username = models.CharField(max_length=200, blank=False, null=False) 
     phone = models.CharField(max_length=20,blank=True, null=True)
-    two_factor_authenticator = models.CharField(max_length=200, blank=True, null=True)    
+    two_factor_authenticator = models.CharField(max_length=200, blank=True, null=True, choices=TWO_F_A_CHOICES)    
     
     def __str__(self):
-        return self.name
+        return self.platform
     
 class Prompt(models.Model):
     
@@ -186,13 +192,13 @@ class Prompt(models.Model):
         ('st', 'Story'),
     )
     
-    channel = models.ForeignKey(MediaPlatform, on_delete=models.CASCADE, null=False, blank=False)
+    channel = models.ForeignKey(Channel, on_delete=models.CASCADE, null=False, blank=False)
     content_format = models.CharField(max_length=200, null=False, blank=False, choices=FORMAT_CHOICES)
-    text = models.TextField(null=True, blank=True)
+    text = models.TextField(null=False, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
-    
+
     def __str__(self):
-        return self.channel        
+        return self.channel.name        
 
 class Title(models.Model):
     
@@ -206,15 +212,16 @@ class Title(models.Model):
         ('r', 'Reel'),
         ('st', 'Story'),
     )
-    
-    channel = models.ForeignKey(MediaPlatform, null=False, blank=False, on_delete=models.CASCADE)
-    publish_date = models.DateField(auto_now=True, blank=True, null=True)
+
+    name = models.CharField(max_length=200, null=True, blank=True)
+    channel = models.ForeignKey(Channel, null=False, blank=False, on_delete=models.CASCADE)
+    publish_date = models.DateField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     content_format = models.CharField(max_length=200, choices=FORMAT_CHOICES, default='Long Video')
-    status = models.BooleanField(default=True, null=False, blank=False)     
+    status = models.BooleanField(default=False, null=False, blank=False)     
     
     def __str__(self):
-        return self.channel.name   
+        return f'{self.name} - {self.channel.name}'
     
 class Character(models.Model):
     """
@@ -222,18 +229,17 @@ class Character(models.Model):
     """
     
     TYPE_CHOICES = (
-        ('s', 'Stoic'),
-        ('ps', 'Psycologist'),
-        ('w', 'Writer'),
-        ('m', 'Mentor')
+        ('stoic', 'Stoic'),
+        ('psycologist', 'Psycologist'),
+        ('writer', 'Writer'),
+        ('mentor', 'Mentor')
     )
-    channel = models.ManyToManyField(MediaPlatform, blank=False)
+    type = models.CharField(max_length=60, blank=True, null=True, choices=TYPE_CHOICES)
     name = models.CharField(max_length=200, null=False, blank=False)
-    character_type = models.CharField(max_length=200, null=False, blank=False, choices=TYPE_CHOICES)
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return f"{self.name} - {self.channel.name}"
+        return f"{self.name} - {self.type}"
 
 class Phrase(models.Model):
     
@@ -241,7 +247,8 @@ class Phrase(models.Model):
     This model is for having every phrase that you are going to use to create content 
     """
     
-    channel = models.ForeignKey(MediaPlatform, on_delete=models.CASCADE, null=False, blank=False)
+    channel = models.ForeignKey(Channel, on_delete=models.CASCADE, null=False, blank=False)
+    author = models.CharField(max_length=60, blank=True, null=True)
     text = models.TextField(blank=False, null=False)
     created_at =  models.DateTimeField(auto_now_add=True)
     is_used = models.BooleanField(default=False)
@@ -272,3 +279,36 @@ class Book(models.Model):
     
     def __str__(self):
         return f"{self.title} - {self.author}"
+
+
+class Hook(models.Model):
+    """
+    This model is for having every hook that you are going to use to create content
+    """
+    hook = models.TextField(blank=False, null=False)
+    uuid = models.UUIDField(unique=True, null=True, blank=True, default=uuid4)
+    created_at =  models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.hook
+
+class Contact(models.Model):
+    
+    STATUS_CHOICES = (
+        ('r', 'Read'),
+        ('u', 'Unread')   
+    )
+    
+    uuid = models.UUIDField(unique=True, null=True, blank=True)
+    fullname = models.CharField(max_length=200, null=False, blank=False)
+    email = models.EmailField(max_length=100, null=False, blank=False)
+    message =  models.TextField(null=False, blank=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=100, choices=STATUS_CHOICES, default='u')
+    
+    def save(self, *args, **kwargs):
+        if not self.uuid:
+            self.uuid = uuid4()
+        super().save(*args, **kwargs)
+    def __str__(self):
+        return f"{self.fullname} | {self.email}"    

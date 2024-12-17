@@ -1,0 +1,82 @@
+{% extends 'auth/base.html' %}
+
+{% load static %}
+
+{% block title %} Title {% endblock %}
+
+{% block content %}
+    <div class="row gap-4">
+      {% with titles=True %}
+      <div class="col-md-2">
+          {% include 'auth/partials/aside.html' %}
+      </div>
+    {% endwith%}
+        <div class="col-md-9 mt-4 shadow rounded">
+            <h1 class="text-center text-muted fw-bold display-5">Titles</h1>
+            {% if messages %}
+              <div class="alert alert-success text-success fw-bold">
+                {% for message in messages %}
+                  {{ message}}
+                {% endfor%}
+              </div>
+            {% endif %}
+
+            <a href="{% url 'create-title' %}" class="btn btn-sm btn-success">
+              <img class="me-1" src="{% static 'icons/new.png' %}" width="20px" alt="">
+              Create new Title
+            </a>
+            
+            <div class="rounded-lg shadow p-4 my-4">
+                <table class="table table-hover table-r">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Channel</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Actions</th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% if titles %}
+                        {% for title in titles %}
+                            <tr>
+                                <td>
+                                  {{title.id}}
+                                </td>
+                                <td>
+                                  {{title.name}}
+                                </td>
+                                <td>
+                                  {{title.channel}}
+                                </td>
+                                <td>
+                                  {% if title.status %}
+                                    Used
+                                  {% else %}
+                                    Not Used
+                                  {% endif %}  
+                                </td>
+                                <td class="">
+                                    <a href="{% url 'title-detail' title.pk %}" class="btn btn-warning btn-sm">
+                                      <img class="me-1" src="{% static 'icons/eye.png' %}" width="20px" alt="">View details
+                                    </a>
+                                </td>
+
+                            </tr>
+                        {% endfor %}
+                      {% endif %}
+                    </tbody>
+                  </table> 
+
+                  {% if page_obj %}
+                    <div class="text-center justify-content-center align-content-center">
+                      {% include 'auth/partials/pagination.html' %}
+                    </div>
+                  {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

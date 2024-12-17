@@ -1,0 +1,32 @@
+{% extends 'auth/base.html' %}
+
+{% load static %}
+
+{% block title %} Create Channel {% endblock %}
+
+{% block content %}
+    <div class="row gap-4">
+        {% with characters=True %}
+        <div class="col-md-2">
+            {% include 'auth/partials/aside.html' %}
+        </div>
+      {% endwith%}
+        <div class="col-md-9 mt-4 shadow rounded">
+            <h1 class="text-center text-muted">Creating a new Character</h1>
+            <a href="{% url 'characters' %}" class="btn btn-sm btn-secondary">
+                <img class="me-1" src="{% static 'icons/return.png' %}" width="20px" alt="">Return back
+            </a>
+            <div class="rounded-lg shadow p-4 my-4">
+               <form action="" method="post">
+                    {% csrf_token %}
+                        {{ form }}
+                    <button class="btn btn-sm btn-primary my-3" type="submit">
+                        <img class="me-1" src="{% static 'icons/save.png' %}" width="20px" alt="">Create character
+                    </button>
+               </form> 
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

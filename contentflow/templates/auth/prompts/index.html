@@ -1,0 +1,69 @@
+{% extends 'auth/base.html' %}
+
+{% load static %}
+
+{% block title %} Publications {% endblock %}
+
+{% block content %}
+    <div class="row gap-4">
+      {% with prompts=True %}
+      <div class="col-md-2">
+          {% include 'auth/partials/aside.html' %}
+      </div>
+    {% endwith%}
+        <div class="col-md-9 mt-4 shadow rounded">
+            <h1 class="text-center text-muted">Prompts</h1>
+            {% if messages %}
+              <div class="alert alert-success text-success fw-bold">
+                {% for message in messages %}
+                  {{ message}}
+                {% endfor%}
+              </div>
+            {% endif %}
+
+            <a href="{% url 'create-prompt' %}" class="btn btn-sm btn-success">
+              <img class="me-1" src="{% static 'icons/new.png' %}" width="20px" alt="">Create prompt
+            </a>
+            
+            <div class="rounded-lg shadow p-4 my-4">
+                <table class="table table-hover table-responsive">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Channel</th>
+                        <th scope="col">Content format</th>
+                        <th scope="col">Prompt</th>
+                        <th scope="col">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% if prompts %}
+                        {% for prompt in prompts %}
+                            <tr>
+                                <td>{{prompt.id}}</td>
+                                <td>{{prompt.channel}}</td>
+                                <td>{{prompt.get_content_format_display }}</td>
+                                <td>{{prompt.text | truncatechars:50 }}</td>
+                                <td>
+                                    <a href="{% url 'detail-prompt' prompt.pk %}" class="btn btn-sm btn-secondary btn-sm">
+                                      <img class="me-1" src="{% static 'icons/eye.png' %}" width="20px" alt="">View Details
+                                    </a>
+                                    <a href="{% url 'delete-prompt' prompt.pk %}" class="btn btn-sm btn-danger btn-sm">
+                                      <img class="me-1" src="{% static 'icons/delete.png' %}" width="20px" alt="">Delete promt
+                                    </a>
+                                </td>
+
+                            </tr>
+                        {% endfor %}
+                      {% endif %}
+                    </tbody>
+                  </table> 
+
+                  <div class="text-center justify-content-center align-content-center">
+                    {% include 'auth/partials/pagination.html' %}
+                  </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

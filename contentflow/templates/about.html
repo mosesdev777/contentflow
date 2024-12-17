@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}About{% endblock %}
+
+{% block content %}
+    <h1 class="text-center display-4 fw-bold text-primary">About Content Flow</h1>
+    
+    <div class="row my-5">
+        <div class="col-md-6 align-content-center">
+            <h3 class="text-center text-muted fw-bold">Empowering Your Content Journey</h3>
+            <p class="about-text my-4">
+                Content Flow is designed to simplify your content creation process. We understand that managing ideas, collaboration, and publication can be overwhelming. Our app provides a seamless platform that empowers creators to streamline their workflow, enhance productivity, and unleash their creativity
+        
+            </p>
+            <p>
+                With intuitive tools and features tailored for both individuals and teams, Content Flow helps you organize your thoughts, collaborate effortlessly, and publish with confidence. Whether you're a blogger, marketer, or business owner, our mission is to support you every step of the way.
+            </p>
+            <p>
+                Join us on this journey to transform the way you create and share content. Let’s flow together!
+            </p>
+            <div class="text-center">
+                <a href="{% url 'register' %}" class="btn btn-primary">Join us now!!</a>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <img class="img-fluid rounded-4 shadow" src="{% static 'img/about-image.jpg' %}" alt="">
+        </div>
+    </div>
+{% endblock %}

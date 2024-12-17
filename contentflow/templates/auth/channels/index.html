@@ -1,0 +1,79 @@
+{% extends 'auth/base.html' %}
+
+{% load static %}
+
+{% block title %} Channels {% endblock %}
+
+{% block content %}
+    <div class="row gap-4">
+      {% with channels=True %}
+        <div class="col-md-2">
+          {% include 'auth/partials/aside.html' %}
+        </div>
+      {% endwith%}
+        <div class="col-md-9 mt-4 shadow rounded">
+            <h1 class="text-center text-muted">Channels</h1>
+            {% if messages %}
+              <div class="alert alert-success text-success fw-bold">
+                {% for message in messages %}
+                  {{ message}}
+                {% endfor%}
+              </div>
+            {% endif %}
+
+            <a href="{% url 'create-channel' %}" class="d-inline-flex justify-content-center align-content-center btn btn-sm btn-success">
+              <img class="me-1" src="{% static 'icons/new.png' %}" width="20px" alt="">Create Channel
+            </a>
+            
+            <div class="rounded-lg shadow p-4 my-4">
+                <table class="table table-hover table-r">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Social Media</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Actions</th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% if channels %}
+                        {% for channel in channels %}
+                            <tr>
+                                <td>{{channel.id}}</td>
+                                <td>{{channel }}</td>
+                                <td>
+                                  {% for social_media in channel.social_media.all %}
+                                    <span>{{social_media}}</span>
+                                  {% endfor %}
+                                </td>
+                                <td>
+                                  {% if channel.is_active%}
+                                    Active
+                                  {% else%}
+                                    Inactive
+                                  {% endif%}
+                                </td>
+                                <td class="">
+                                    <a href="{% url 'update-channel' channel.pk %}" class="d-inline-flex justify-content-center align-content-center btn btn-warning btn-sm  ">
+                                      <img class="me-1" src="{% static 'icons/edit.png' %}" width="20px" alt="">Edit channel
+                                    </a>
+                                    <a href="{% url 'delete-channel' channel.id %}" class="d-inline-flex justify-content-center align-content-center btn btn-danger btn-sm">
+                                      <img class="me-1" src="{% static 'icons/delete.png' %}" width="20px" alt="">Delete channel
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                      {% endif %}
+                    </tbody>
+                  </table> 
+
+                  <div class="text-center justify-content-center align-content-center">
+                    {% include 'auth/partials/pagination.html' %}
+                  </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

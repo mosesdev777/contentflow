@@ -1,0 +1,33 @@
+{% load static  %}
+
+{% include 'auth/partials/offcanvas.html' %}
+
+<nav class="navbar navbar-expand-lg fw-bold shadow ">
+  <div class="container">
+    <a class="navbar-brand text-primary fw-bolder" href="{% url 'home' %}">Content Flow</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <img src="{% static 'icons/menu.png' %}" alt="">
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        
+      </ul>
+      <ul class="navbar-nav me-md-4 mb-2 mb-lg-0 d-flex gap-3">
+        <li class="nav-item">
+          <div class="dropdown">
+            <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              {{ request.user}}
+            </button>
+            <ul class="dropdown-menu">
+              {% if user.is_authenticated %}
+              <li><a class="dropdown-item" href="{% url 'profile-datails' request.user.id %}">My profile</a></li>
+              {% endif%}
+              <li><hr></li>
+              <li><a class="dropdown-item" href="{% url 'logout' %}">Log out</a></li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

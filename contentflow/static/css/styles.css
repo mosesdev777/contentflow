@@ -1,9 +1,15 @@
-.social-media{
-    
-}
 
 .errorlist {
     color: red;
     list-style: none;
     padding: 0;
 }
+
+.helptext{
+    color: green;
+}
+
+ul{
+    list-style: none;
+}
+

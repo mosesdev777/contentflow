@@ -1,0 +1,37 @@
+{% extends 'auth/base.html' %}
+
+{% load static %}
+
+{% block title %} Update Book {% endblock %}
+
+{% block content %}
+    <div class="row gap-4">
+        {% with books=True %}
+            <div class="col-md-2">
+                {% include 'auth/partials/aside.html' %}
+            </div>
+        {% endwith%}
+        <div class="col-md-9 mt-4 shadow rounded">
+            <h1 class="text-center text-muted display-5 fw-bold">Updating {{ book.title }}</h1>
+            <a href="{% url 'books'%}" class="btn btn-sm btn-secondary my-3">
+                <img class="me-1" src="{% static 'icons/return.png' %}" width="20px" alt="">Return back
+            </a>
+            {% if messages %}
+                <div class="alert alert-success fw-bold text-success">
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}    
+                </div>
+            {% endif %}
+
+           <form action="" method="POST">
+                {% csrf_token %}
+                {{ form }}
+                <button type="submit" class="btn btn-sm btn-success my-3">
+                    <img class="me-1" src="{% static 'icons/save.png' %}" width="20px" alt="">Update
+                </button>
+           </form>
+        </div>
+    </div>
+{% endblock %}
+

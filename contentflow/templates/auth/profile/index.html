@@ -1,0 +1,40 @@
+{% extends 'auth/base.html' %}
+
+{% block title %} profile {% endblock %}
+
+{% block content %}
+    <div class="row gap-4">
+      <div class="col-md-2">
+          {% include 'auth/partials/aside.html' %}
+      </div>
+        <div class="col-md-9 mt-4 shadow rounded">
+            <h1 class="text-center text-muted">My profile</h1>
+            {% if messages %}
+              <div class="alert alert-success text-success fw-bold">
+                {% for message in messages %}
+                  {{ message}}
+                {% endfor%}
+              </div>
+            {% endif %}
+            
+            <div class="rounded-lg shadow p-4 my-4">
+              <div class="text-center">
+                <img src="{% if user.profile.avatar %}user.profile.avatar.url{% endif %}" width="200px" alt="User avatar" class="rounded-circle text-center shadow">
+              </div>
+              <div class="card p-4">
+                <div class="card-title">
+                  <h5 class="text-muted fw-bold">{{user.first_name}} {{user.last_name}}</h5>
+                </div>
+                <div class="card-body">
+                  <p>Email: <span class="fw-bold text-muted">{{ user.email }}</span></p>
+                  <p>Date Joined: <span class="fw-bold text-muted">{{ user.date_joined | date }}</span></p>
+                </div>
+                <div class="card-footer bg-white">
+                  <a class="btn btn-sm btn-secondary shadow" href="{% url 'profile-change' user.pk %}">Edit information</a>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

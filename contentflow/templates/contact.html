@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Contact{% endblock %}
+
+{% block content %}
+
+    <h1 class="fw-bold text-primary text-center display-3">Get in Touch</h1>
+
+    <p>We’d love to hear from you! Whether you have questions, feedback, or need support, our team is here to help. Reach out to us through the form below, and we’ll get back to you as soon as possible. </p>
+
+    <div class="row my-5">
+        <div class="col-md-5 align-content-center">
+            <form action="" method="post" novalidate>
+                {% csrf_token %}
+                <h3 class="text-muted text-center ">Please fill all fields </h3>
+                {{ form }}
+                <button class="btn btn-primary w-100 my-2 shadow" type="submit">Send Message </button>
+            </form>
+        </div>
+        <div class="col-md-7">
+            <img class="img-fluid rounded shadow" src="{% static 'img/contact-image.jpg' %}" alt="">
+        </div>
+    </div>
+{% endblock %}

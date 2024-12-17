@@ -1,0 +1,75 @@
+{% extends 'auth/base.html' %}
+
+{% load static %}
+
+{% block title %} Publications {% endblock %}
+
+{% block content %}
+    <div class="row gap-4">
+      {% with subscriptions=True %}
+        <div class="col-md-2">
+            {% include 'auth/partials/aside.html' %}
+        </div>
+      {% endwith%}
+        <div class="col-md-9 mt-4 shadow rounded">
+            <h1 class="text-center text-muted fw-bold display-5">{{ subscription.platform }}</h1>
+            <a href="{% url 'subscriptions' %}" class="btn btn-sm btn-secondary mx-md-4 btn-sm">
+              <img class="me-1" src="{% static 'icons/return.png' %}" width="20px" alt="">Return
+            </a>
+            <div class="rounded-lg shadow p-4 my-4">
+              <div class="card">
+                <div class="card-body">
+                  <h3 class="card-title text-muted">{{ subscription.platform }}</h3>
+                  <div>
+                    <h5>Platform</h5>
+                    <p>{{ subscription.platform }}</p>
+                  </div>
+                  <hr>
+                  <div>
+                    <h5>Plan</h5>
+                    <p>{{ subscription.plan }}</p>
+                  </div>
+                  <hr>
+                  <div>
+                    <h5>Amount</h5>
+                    <p>${{ subscription.amount }} Dollars</p>
+                  </div>
+                  <hr>
+                  <div>
+                    <h5>Email</h5>
+                    <p>{{ subscription.mail }}</p>
+                  </div>
+                  <hr>
+                  <div>
+                    <h5>Start Date</h5>
+                    <p>{{ subscription.start_date }}</p>
+                  </div>
+                  <hr>
+                  <div>
+                    <h5>Renewal</h5>
+                    <p>{{ subscription.get_renewal_display }}</p>
+                  </div>
+                  <hr>
+                  <div>
+                    <h5>Subscription status</h5>
+                    <p>
+                      {% if subscription.is_active %}
+                        Active
+                      {% else %}
+                        Not active
+                      {% endif %}
+                    </p>
+                  </div>
+                  <hr>
+                </div>
+                <div class="card-footer d-md-flex gap-3">
+                  <a href="{% url 'update-subscription' subscription.uuid %}" class="btn btn-sm btn-warning">
+                    <img class="me-1" src="{% static 'icons/edit.png' %}" width="20px" alt="">Edit subscription
+                  </a>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

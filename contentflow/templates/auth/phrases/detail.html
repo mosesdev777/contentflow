@@ -1,0 +1,65 @@
+{% extends 'auth/base.html' %}
+
+{% load static %}
+
+{% block title %} Publications {% endblock %}
+
+{% block content %}
+    <div class="row gap-4">
+      {% with phrases=True %}
+        <div class="col-md-2">
+            {% include 'auth/partials/aside.html' %}
+        </div>
+      {% endwith%}
+        <div class="col-md-9 mt-4 shadow rounded">
+            <h1 class="text-center text-muted fw-bold display-5">Phrase details</h1>
+            <a href="{% url 'subscriptions' %}" class="btn btn-secondary mx-md-4 btn-sm">
+              <img class="me-1" src="{% static 'icons/return.png' %}" width="20px" alt="">Return
+            </a>
+            <div class="rounded-lg shadow p-4 my-4">
+              <div class="card">
+                <div class="card-body">
+                  <h3 class="card-title text-muted text-center">{{ phrase.author }}</h3>
+                  <div>
+                    <h5>Channel</h5>
+                    <p>{{ phrase.channel }}</p>
+                  </div>
+                  <hr>
+                  <div>
+                    <h5>Author</h5>
+                    <p>{{ phrase.author }}</p>
+                  </div>
+                  <hr>
+                  <div>
+                    <h5>Phrase</h5>
+                    <p>{{ phrase.text }}</p>
+                  </div>
+                  <hr>
+                  <div>
+                    <h5>Is used</h5>
+                    <p>
+                      {% if phrase.is_used %}
+                        Used
+                      {% else %}
+                        Not used  
+                      {% endif %}  
+                    </p>
+                  </div>
+                  <hr>
+                  <div>
+                    <h5>Date used</h5>
+                    <p>{{ phrase.date_used }}</p>
+                  </div>
+                  <hr>
+                <div class="card-footer d-md-flex gap-3">
+                  <a href="{% url 'update-phrase' phrase.pk %}" class="btn btn-warning btn-sm">
+                    <img class="me-1" src="{% static 'icons/edit.png' %}" width="20px" alt="">
+                    Edit phrase
+                  </a>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

@@ -1,0 +1,98 @@
+{% extends 'auth/base.html' %}
+
+{% load static %}
+
+{% block title %} Publications {% endblock %}
+
+{% block content %}
+    <div class="row gap-4">
+        {% with publications=True %}
+          <div class="col-md-2">
+            {% include 'auth/partials/aside.html' %}
+            {% include 'auth/partials/modals/delete.html' %}
+          </div>
+        {% endwith%}
+        <div class="col-md-9 mt-4 shadow rounded">
+            <h1 class="text-center text-muted display-5 fw-bold">Publication details</h1>
+            <a href="{% url 'publications' %}" class="d-inline-flex justify-content-center align-content-center btn btn-secondary mx-md-4 btn-sm">
+              <img class="me-1" src="{% static 'icons/return.png' %}" width="20px" alt="">Return
+            </a>
+            <div class="rounded-lg  p-4 my-4">
+              <div class="card">
+                <div class="card-body">
+                  <h3 class="card-title text-muted">{{ publication.title }}</h3>
+                  <div>
+                    <h5>Description</h5>
+                    <p>{{ publication.description }}</p>
+                  </div>
+                  <hr >
+                  <div>
+                    <h5>Script</h5>
+                    <p>{{ publication.script }}</p>
+                  </div>
+                  <hr>
+                  <div>
+                    <h5>Thumbnail title</h5>
+                    <p>{{ publication.thumbnail_title }}</p>
+                  </div>
+                  <hr>
+                  <div>
+                    <h5>Voice type</h5>
+                    <p>{{ publication.get_voice_type_display }}</p>
+                  </div>
+                  <hr>
+                  <div>
+                    <h5>Voice author</h5>
+                    <p>{{ publication.voice_author }}</p>
+                  </div>
+                  <hr>
+                  <div>
+                    <h5>Voice name</h5>
+                    <p>{{ publication.voice_name }}</p>
+                  </div>
+                  <hr>
+                  <div>
+                    <h5>Publication status</h5>
+                    <p>{{ publication.get_status_display }}</p>
+                  </div>
+                  <hr>
+                  <div>
+                    <h5>Publication format</h5>
+                    <p>{{ publication.get_content_format_display }}</p>
+                  </div>
+                  <hr>
+                  <div>
+                    <h5>Background music</h5>
+                    <p>{{ publication.background_music }}</p>
+                  </div>
+                  <hr>
+                  <div>
+                    <h5>Channel</h5>
+                    <p>{{ publication.channel }}</p>
+                  </div>
+                  <hr>
+                  <div>
+                    <h5>Social medias</h5>
+                    <p>
+                      {% for social_media in publication.social_media.all %}
+                        <span>{{ social_media.name }}</span>  <span><img width="60px" class="img-fluid rounded-5" src="{{ social_media.icon.url }}" alt=""></span>
+                      {% endfor %}
+                    </p>
+                  </div>
+                  <hr>
+                  
+                </div>
+                <div class="card-footer d-md-flex gap-3">
+                  <a href="{% url 'update-publication' publication.uuid %}" class="d-inline-flex justify-content-center align-content-center btn btn-sm btn-warning">
+                    <img class="me-1" src="{% static 'icons/edit.png' %}" width="20px" alt="">Edit publication
+                  </a>
+                  <button type="button" class="d-inline-flex justify-content-center align-content-center btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <img class="me-1" src="{% static 'icons/delete.png' %}" width="20px" alt="">Delete publication
+                  </button>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

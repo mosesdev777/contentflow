@@ -1,0 +1,92 @@
+{% extends 'auth/base.html' %}
+
+{% load static %}
+
+{% block title %} Accounts {% endblock %}
+
+{% block content %}
+    <div class="row gap-4">
+      {% with accounts=True %}
+          <div class="col-md-2">
+              {% include 'auth/partials/aside.html' %}
+          </div>
+      {% endwith%}
+        <div class="col-md-9 mt-4 shadow rounded">
+            <h1 class="text-center text-muted fw-bold display-5">Accounts</h1>
+            {% if messages %}
+              <div class="alert alert-success text-success fw-bold">
+                {% for message in messages %}
+                  {{ message}}
+                {% endfor%}
+              </div>
+            {% endif %}
+
+            <a href="{% url 'create-account' %}" class="btn btn-sm btn-success">
+              <img class="me-1" src="{% static 'icons/new.png' %}" width="20px" alt="">Create new Account
+            </a>
+            
+            <div class="rounded-lg shadow p-4 my-4">
+                <table class="table table-hover table-r">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Platform</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Purpose</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">2FA</th>
+                        <th scope="col">Actions</th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% if accounts %}
+                        {% for account in accounts %}
+                            <tr>
+                                <td>
+                                  {{account.id}}
+                                </td>
+                                <td>
+                                  {{account.platform}}
+                                </td>
+                                <td>
+                                  {{ account.email}}
+                                </td>
+                                <td>
+                                  {{ account.purpose}}
+                                </td>
+                                <td>
+                                  {{ account.username}}
+                                </td>
+                                <td>
+                                  {{ account.phone}}
+                                </td>
+                                <td>
+                                  {{ account.get_two_factor_authenticator_display}}
+                                </td>
+                                <td class="">
+                                    <a href="{% url 'update-account' account.pk %}" class="btn btn-warning btn-sm">
+                                      <img class="me-1" src="{% static 'icons/edit.png' %}" width="20px" alt="">Edit account
+                                    </a>
+                                    <a href="{% url 'delete-account' account.pk %}" class="btn btn-danger btn-sm">
+                                      <img class="me-1" src="{% static 'icons/delete.png' %}" width="20px" alt="">Delete account
+                                    </a>
+                                </td>
+
+                            </tr>
+                        {% endfor %}
+                      {% endif %}
+                    </tbody>
+                  </table> 
+
+                  {% if page_obj %}
+                    <div class="text-center justify-content-center align-content-center">
+                      {% include 'auth/partials/pagination.html' %}
+                    </div>
+                  {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

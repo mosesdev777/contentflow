@@ -1,0 +1,67 @@
+{% extends 'auth/base.html' %}
+
+{% load static %}
+
+{% block title %} Social Media {% endblock %}
+
+{% block content %}
+    <div class="row gap-4">
+      {% with social_medias=True %}
+      <div class="col-md-2">
+          {% include 'auth/partials/aside.html' %}
+      </div>
+    {% endwith %}
+        <div class="col-md-9 mt-4 shadow rounded">
+            <h1 class="text-center text-muted">Social Medias</h1>
+            {% if messages %}
+              <div class="alert alert-success text-success fw-bold">
+                {% for message in messages %}
+                  {{ message}}
+                {% endfor%}
+              </div>
+            {% endif %}
+
+            <a href="{% url 'create-social-media' %}" class="btn btn-sm btn-success">
+              <img class="me-1" src="{% static 'icons/new.png' %}" width="20px" alt="">Create social media
+            </a>
+            
+            <div class="rounded-lg shadow p-4 my-4">
+                <table class="table table-hover table-responsive">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Icon</th>
+                        <th scope="col">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% if social_medias %}
+                        {% for social_media in social_medias %}
+                            <tr>
+                                <td>{{social_media.id}}</td>
+                                <td>{{social_media.name}}</td>
+                                <td><img width="40px" src="{{ social_media.icon.url }}" alt="{{ social_media.name }}"></td>
+                                <td>
+                                    <a href="{% url 'update-social-media' social_media.pk %}" class="btn btn-warning btn-sm">
+                                      <img class="me-1" src="{% static 'icons/edit.png' %}" width="20px" alt="">Edit
+                                    </a>
+                                    <a href="{% url 'delete-social-media' social_media.pk %}" class="btn btn-danger btn-sm">
+                                      <img class="me-1" src="{% static 'icons/delete.png' %}" width="20px" alt="">Delete
+                                    </a>
+                                </td>
+
+                            </tr>
+                        {% endfor %}
+                      {% endif %}
+                    </tbody>
+                  </table> 
+
+                  <div class="text-center justify-content-center align-content-center">
+                    {% include 'auth/partials/pagination.html' %}
+                  </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

@@ -5,10 +5,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Content Flow |  {% block title %}{% endblock %}</title>
+    <title>Content Flow | {% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/vendor/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-    {% block content %}
-    {% endblock %}
+    <div class="container">
+        {% include 'auth/partials/navbar.html' %}
+        
+        {% block content %}
+        
+        {% endblock %}
+
+    </div>
+    <script src="{% static 'js/vendor/bootstrap.bundle.min.js' %}"></script>
 </body>
 </html>

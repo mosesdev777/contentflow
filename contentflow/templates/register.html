@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<h1 class="fw-bold text-center text-primary display-3">Join Content Flow!</h1>
+
+
+<div class="row my-5">
+    <div class="col-md-5 align-content-center">
+        <form action="" method="post" novalidate>
+            {% csrf_token %}
+            <label class="text-muted fw-medium" for="username">Username</label>
+            {{ form.username}}
+            {% if form.errors.username %}
+                <div class="alert alert-danger">
+                    {{ form.errors.username }}
+                </div>
+            {% endif %}
+        
+            <label class="text-muted fw-medium" for="password1">Password</label>
+            {{ form.password1 }}
+            {% if form.errors %}
+                {{ form.errors.password1 }}
+            {% endif %}
+        
+        
+            <label class="text-muted fw-medium" for="">Password Confirmation</label>
+            {{ form.password2}}
+            {% if form.errors %}
+                {{ form.errors.password2 }}
+            {% endif %}
+        
+        
+            <button class="btn btn-secondary mt-3 w-100" type="submit">Register</button>
+        </form>
+    </div>
+    <div class="col-md-7">
+        <img src="{% static 'img/register-image.jpg' %}" alt="" class="img-fluid">
+    </div>
+</div>
+{% endblock %}

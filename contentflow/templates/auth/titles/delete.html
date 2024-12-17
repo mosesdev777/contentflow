@@ -1,0 +1,33 @@
+{% extends 'auth/base.html' %}
+
+{% load static %}
+
+{% block title %} Delete Title {% endblock %}
+
+{% block content %}
+    <div class="row gap-4">
+        {% with titles=True %}
+        <div class="col-md-2">
+            {% include 'auth/partials/aside.html' %}
+        </div>
+      {% endwith%}
+        <div class="col-md-9 mt-4 shadow rounded">
+            <h1 class="text-center text-muted fw-bold display-5">Deleting: {{ title.name }}</h1>
+            <div class="rounded-lg shadow p-4 my-4">
+                <h4>Are you sure want to delete this Title?</h4>
+                <p class="text-danger" >This action cannot be undone!!</p>
+               <form action="" method="post">
+                    {% csrf_token %}
+                    <a class="btn btn-sm btn-secondary" href="{% url 'title-detail' title.id %}">
+                        <img class="me-1" src="{% static 'icons/cancel.png' %}" width="20px" alt="">Cancel
+                    </a>
+                    <button class="btn btn-sm btn-danger my-3" type="submit">
+                        <img class="me-1" src="{% static 'icons/delete.png' %}" width="20px" alt="">Yes, delete it!!
+                    </button>
+               </form> 
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

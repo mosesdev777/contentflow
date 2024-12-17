@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <h1 class="text-center display-2 fw-bold my-2 text-primary">
+        Streamline Your Content Creation
+    </h1>
+    <h2 class="text-center  text-muted my-2">
+        Discover Content Flow: the ultimate tool for organizing, creating, and managing your content efficiently. From ideas to publications, optimize your workflow and unleash your creativity. Start today and transform the way you share your voice!
+    </h2>
+    <div class="row my-5">
+        <div class="col-md-6">
+            <img class="img-fluid rounded-4 shadow" src="{% static 'img/hero-image.jpg'%}" alt="">
+        </div>
+        <div class="col-md-6 align-content-center">
+            <h3 class="text-center text-muted">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia, tempore tenetur atque at consectetur voluptatem recusandae. Nihil maxime quisquam id facere accusantium illo rem, eos soluta eius ad omnis magnam!
+            </h3>
+            <div class="cta text-center">
+                <a href="{% url 'register' %}" class="btn btn-primary">Join Now!!</a>
+            </div>
+        </div>
+    </div>
+    <div class="row rounded-4">
+        <h3 class="text-center display-3 fw-bold text-success">Elevate Your Content Game</h3>
+        <video  loop muted class="w-100 " autoplay  src="{% static 'video/hero-video.mp4' %}"></video>
+    </div>
+{% endblock %}
