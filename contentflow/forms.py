@@ -188,7 +188,7 @@ class PromptForm(forms.ModelForm):
         widgets = {
             'channel': forms.Select(attrs={'class':'form-select my-2'}),
             'content_format': forms.Select(attrs={'class':'form-select my-2'}),
-            'text': SummernoteWidget(attrs={'summernote': {'width': '100    %', 'height': '400px'}}) #forms.Textarea(attrs={'class':'form-select my-2', 'placeholder':'Please enter your prompt here'}),
+            'text': SummernoteWidget(attrs={'summernote': {'width': '100%', 'height': '400px'}}) #forms.Textarea(attrs={'class':'form-select my-2', 'placeholder':'Please enter your prompt here'}),
         }
 
 class TitleForm(forms.ModelForm):
