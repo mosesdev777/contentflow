@@ -130,6 +130,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_ROOT = 'media'
 MEDIA_URL = '/media/'
 
-CKEDITOR_UPLOAD_PATH = "uploads/"
 
-FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
+
+
