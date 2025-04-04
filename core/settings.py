@@ -15,7 +15,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-2f$i40m$_4h0vhyin0rv+=-bq-k8nc&u^wzm!n@1$%5c&^2u9h'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     'contentflow-jih0.onrender.com',
@@ -129,3 +129,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_ROOT = 'media'
 MEDIA_URL = '/media/'
+
+CKEDITOR_UPLOAD_PATH = "uploads/"

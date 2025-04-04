@@ -1,4 +1,4 @@
 django
 pillow
 python-dotenv
-gunicorn
+django-ckeditor
