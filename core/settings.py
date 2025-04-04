@@ -32,7 +32,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'contentflow'
+    'contentflow',
 ]
 
 MIDDLEWARE = [
@@ -131,3 +131,5 @@ MEDIA_ROOT = 'media'
 MEDIA_URL = '/media/'
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
+
+FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
