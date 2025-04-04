@@ -19,7 +19,7 @@
             <div class="rounded-lg shadow p-4 my-4">
                <form action="" method="post" novalidate>
                     {% csrf_token %}
-                        {{ form }}
+                        {{ form | safe }}
                     <button class="btn btn-sm btn-primary my-3" type="submit">
                         <img class="me-1" src="{% static 'icons/save.png' %}" width="20px" alt="">Create prompt
                     </button>

@@ -43,7 +43,7 @@
                                 <td>{{prompt.id}}</td>
                                 <td>{{prompt.channel}}</td>
                                 <td>{{prompt.get_content_format_display }}</td>
-                                <td>{{prompt.text | truncatechars:50 }}</td>
+                                <td>{{prompt.text | truncatechars:15 | safe }}</td>
                                 <td>
                                     <a href="{% url 'detail-prompt' prompt.pk %}" class="btn btn-sm btn-secondary btn-sm">
                                       <img class="me-1" src="{% static 'icons/eye.png' %}" width="20px" alt="">View Details

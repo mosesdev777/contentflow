@@ -1,4 +1,4 @@
 django
 pillow
 python-dotenv
-django-ckeditor
+django-summernote

@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'contentflow',
+    'django_summernote',
 ]
 
 MIDDLEWARE = [
@@ -127,9 +128,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-MEDIA_ROOT = 'media'
+MEDIA_ROOT = 'media/'
 MEDIA_URL = '/media/'
 
 
+SUMMERNOTE_THEME = 'bs4'
 
 
