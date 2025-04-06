@@ -33,7 +33,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'contentflow',
-    'django_summernote',
+    
+    'ckeditor',
 ]
 
 MIDDLEWARE = [
@@ -132,6 +133,7 @@ MEDIA_ROOT = 'media/'
 MEDIA_URL = '/media/'
 
 
-SUMMERNOTE_THEME = 'bs4'
+#SUMMERNOTE_THEME = 'bs4'
+
 
 

@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import ModelForm
 from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
+from ckeditor.widgets import CKEditorWidget
+from ckeditor.fields import RichTextFormField
 
 
 from .models import (Profile, Publication, SocialMedia,
@@ -181,6 +183,7 @@ class AccountForm(forms.ModelForm):
 
 
 class PromptForm(forms.ModelForm):
+    
     class Meta:
         model = Prompt
         fields = '__all__'
@@ -188,8 +191,10 @@ class PromptForm(forms.ModelForm):
         widgets = {
             'channel': forms.Select(attrs={'class':'form-select my-2'}),
             'content_format': forms.Select(attrs={'class':'form-select my-2'}),
-            'text': SummernoteWidget(attrs={'summernote': {'width': '100%', 'height': '400px'}}) #forms.Textarea(attrs={'class':'form-select my-2', 'placeholder':'Please enter your prompt here'}),
+            'text': RichTextFormField()#CKEditorWidget()#SummernoteWidget(attrs={'summernote': {'width': '100%', 'height': '400px'}}) #forms.Textarea(attrs={'class':'form-select my-2', 'placeholder':'Please enter your prompt here'}),
         }
+        
+        
 
 class TitleForm(forms.ModelForm):
     class Meta:

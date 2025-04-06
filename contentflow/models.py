@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.utils.text import slugify
 from django.db.models.signals import post_save
 from uuid import uuid4
+from ckeditor.fields import RichTextField
+from django.urls import reverse
 # Create your models here.
 
 
@@ -194,7 +196,7 @@ class Prompt(models.Model):
     
     channel = models.ForeignKey(Channel, on_delete=models.CASCADE, null=False, blank=False)
     content_format = models.CharField(max_length=200, null=False, blank=False, choices=FORMAT_CHOICES)
-    text = models.TextField(null=False, blank=False)
+    text = RichTextField()#models.TextField(null=False, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -312,3 +314,31 @@ class Contact(models.Model):
         super().save(*args, **kwargs)
     def __str__(self):
         return f"{self.fullname} | {self.email}"    
+    
+    
+
+class Investigation(models.Model):
+    
+    STATUS_CHOICES = (
+        ('a', 'Available'),
+        ('u', 'Used')
+    )
+    
+    
+    uuid = models.UUIDField(default=uuid4)
+    channel = models.ForeignKey(Channel, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100, null=False, blank=False)
+    thumbnail = models.ImageField(upload_to='investigations/thumbnails', null=True, blank=True)
+    content = models.TextField(null=False, blank=False)
+    status =  models.CharField(default='a', blank=False, null=False, choices=STATUS_CHOICES)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
+    
+    
+    def get_absolute_url(self):
+        return reverse('investigations', kwargs={'pk': self.pk})
+    
+    def __str__(self):
+        return f"{self.channel.name} - {self.title}"
+    
+       
